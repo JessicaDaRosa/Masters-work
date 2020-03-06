@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public abstract class Operator {
     private final String name;
 
-    protected Operation(String name) {
     protected Operator(String name) {
         this.name = name;
     }
