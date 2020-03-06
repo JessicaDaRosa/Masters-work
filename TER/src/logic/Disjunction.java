@@ -4,7 +4,7 @@ import b.f.T;
 
 import java.util.ArrayList;
 
-public class Disjunction extends Operation {
+public class Disjunction extends Operator {
 
     public Disjunction() {
         super("∨");

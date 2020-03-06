@@ -2,32 +2,24 @@ package logic;
 
 import java.util.Objects;
 
-public class Every implements Quantificator{
-    private final String name;
+public class Every extends Quantificator{
 
     public Every() {
-        this.name = "E";
-    }
-
-    public String getName() {
-        return name;
+        super("E");
     }
 
     @Override
     public String toString() {
-        return name;
+        return super.toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Every)) return false;
-        Every every = (Every) o;
-        return name.equals(every.name);
+        return super.equals(o);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    public String getName() {
+        return super.getName();
     }
 }

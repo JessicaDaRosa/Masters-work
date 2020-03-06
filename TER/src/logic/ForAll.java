@@ -2,31 +2,24 @@ package logic;
 
 import java.util.Objects;
 
-public class ForAll implements Quantificator {
-    private final String name;
-
+public class ForAll extends Quantificator {
     public ForAll() {
-        this.name = "A";
-    }
-
-    public String toString(){
-        return name;
-    }
-
-    public String getName() {
-        return name;
+        super("A");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ForAll)) return false;
-        ForAll forAll = (ForAll) o;
-        return name.equals(forAll.name);
+        return super.equals(o);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(name);
+    public String getName() {
+        return super.getName();
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
 }

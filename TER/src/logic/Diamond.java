@@ -4,7 +4,7 @@ import b.f.T;
 
 import java.util.ArrayList;
 
-public class Diamond extends Operation {
+public class Diamond extends Operator {
 
     protected Diamond() {
         super("◊");

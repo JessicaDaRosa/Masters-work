@@ -2,7 +2,7 @@ package logic;
 
 import java.util.Objects;
 
-public class Atom {
+public class Atom implements Formula {
     private String name;
 
     public void Atom(String n){
@@ -12,6 +12,11 @@ public class Atom {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public Formula reWrite(Formula f) {
+        return null;
     }
 
     public String getName() {

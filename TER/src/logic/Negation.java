@@ -4,7 +4,7 @@ import b.f.T;
 
 import java.util.ArrayList;
 
-public class Negation extends Operation {
+public class Negation extends Operator {
 
     protected Negation() {
         super("¬");
