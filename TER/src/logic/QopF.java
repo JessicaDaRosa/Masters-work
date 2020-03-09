@@ -1,8 +1,9 @@
 package logic;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class QopF implements Formula {
+public class QopF extends Formula {
 
     private Quantificator q;
     private Operator op;
@@ -59,9 +60,66 @@ public class QopF implements Formula {
         this.f = f;
     }
 
+    @Override
+    public Interpretation getI() {
+        return super.getI();
+    }
 
     @Override
-    public Formula reWrite(Formula f) {
+    public ArrayList<Node> getMarks() {
+        return super.getMarks();
+    }
+
+    @Override
+    public void setI(Interpretation i) {
+        super.setI(i);
+    }
+
+    @Override
+    public void setMarks(ArrayList<Node> marks) {
+        super.setMarks(marks);
+    }
+
+    @Override
+    public Formula getParent() {
+        return super.getParent();
+    }
+
+    @Override
+    public void setParent(Formula parent) {
+        super.setParent(parent);
+    }
+
+    @Override
+    public void mark(Node e) {
+        super.mark(e);
+    }
+
+    @Override
+    public boolean isMarkedBy(Node e) {
+        return super.isMarkedBy(e);
+    }
+
+    @Override
+    public Formula reWrite() {
+        //TODO
         return null;
+    }
+
+    public QopF(Formula parent, Interpretation i, ArrayList<Node> marks) {
+        super(parent, i, marks);
+    }
+
+    public QopF() {
+        super();
+    }
+
+    public QopF(Formula parent) {
+        super(parent);
+    }
+
+    @Override
+    public boolean hasParent() {
+        return super.hasParent();
     }
 }
