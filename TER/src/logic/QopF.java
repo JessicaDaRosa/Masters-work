@@ -51,10 +51,29 @@ public class QopF extends Formula {
     //TODO test the output when q an op are null/void
     @Override
     public String toString() {
-        return q.toString() + op.toString() + "("+f.toString()+")";
+        if(q == null) {
+            if(op == null) return "(" + f.toString() + ")";
+            return op.toString() + "(" + f.toString() + ")";
+        }
+        String s = q.toString() + op.toString() + "(" + f.toString() + ")";
+        return s;
     }
 
     public QopF(Quantificator q, Operator op, Formula f) {
+        this.q = q;
+        this.op = op;
+        this.f = f;
+    }
+
+    public QopF(Formula parent, Quantificator q, Operator op, Formula f) {
+        super(parent);
+        this.q = q;
+        this.op = op;
+        this.f = f;
+    }
+
+    public QopF(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f) {
+        super(parent, i, marks);
         this.q = q;
         this.op = op;
         this.f = f;
@@ -102,7 +121,74 @@ public class QopF extends Formula {
 
     @Override
     public Formula reWrite() {
-        //TODO
+
+        //E
+        if ( q instanceof Every)
+        {
+            //E Box
+            if (op instanceof Square){
+                Negation nonADiamond = new Negation(this.getParent());
+                QopF aDiamondNf = new QopF(nonADiamond);
+                aDiamondNf.setOp(new Diamond());
+                aDiamondNf.setQ(new ForAll());
+                Negation nonF = new Negation(aDiamondNf);
+                nonF.setF(this.getF().reWrite());
+                nonF.getF().setParent(nonF);
+                aDiamondNf.setF(nonF);
+                nonADiamond.setF(aDiamondNf);
+                return nonADiamond;
+            }
+            // E Rond
+            if (op instanceof Ring) {
+                this.setF(f.reWrite());
+                return this;
+            }
+            //E Losange
+            if (op instanceof Diamond){
+                QF1opF2 temp1 = new QF1opF2(this.getParent(), new Every(), new Until(), new Atom("True"), this.f.reWrite());
+                temp1.getF2().setParent(temp1);
+                return temp1;
+            }
+
+        }
+        //A
+        if ( q instanceof ForAll)
+        {
+            //A Box
+            if (op instanceof Square){
+                Negation nonEDiamond = new Negation(this.getParent());
+                QopF eDiamondNf = new QopF(nonEDiamond);
+                eDiamondNf.setQ(new Every());
+                eDiamondNf.setOp(new Diamond());
+                Negation nonF = new Negation(eDiamondNf);
+                nonF.setF(this.getF().reWrite());
+                nonF.getF().setParent(nonF);
+                eDiamondNf.setF(nonF);
+                nonEDiamond.setF(eDiamondNf);
+                return nonEDiamond;
+            }
+            //A Rond
+            if (op instanceof Ring) {
+                Negation nonF = new Negation(this.getParent(), this.getF().reWrite());
+                nonF.getF().setParent(nonF);
+                Negation ret = new Negation(this.getParent(), new QopF(new Every(), new Ring(), nonF));
+                ret.getF().setParent(ret);
+                return ret;
+            }
+            //A Diamond
+            if (op instanceof Diamond){
+               QopF aDiamond = new QopF(new ForAll(), new Diamond(), this.getF().reWrite());
+               aDiamond.getF().setParent(aDiamond);
+
+               QopF aRond = new QopF(new ForAll(), new Ring(), aDiamond);
+               aRond.getF().setParent(aRond);
+
+               QF1opF2 ret = new QF1opF2(this.getParent(), null, new Disjunction(),this.getF().reWrite(), aRond);
+               ret.getF1().setParent(ret);
+               ret.getF2().setParent(ret);
+               return   ret;
+            }
+        }
         return null;
     }
 
@@ -122,4 +208,10 @@ public class QopF extends Formula {
     public boolean hasParent() {
         return super.hasParent();
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

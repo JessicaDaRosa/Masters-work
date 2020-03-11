@@ -13,6 +13,11 @@ public class Negation extends Formula {
         this.f = f;
     }
 
+    public Negation(Formula parent, Interpretation i, ArrayList<Node> marks, Formula f) {
+        super(parent, i, marks);
+        this.f = f;
+    }
+
     protected Negation() {
         super();
     }
@@ -70,6 +75,7 @@ public class Negation extends Formula {
 
     @Override
     public String toString() {
+        if (this.getF() instanceof Atom) return "¬" + f.toString();
         return "¬(" + f.toString() + ")";
     }
 
@@ -93,5 +99,10 @@ public class Negation extends Formula {
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

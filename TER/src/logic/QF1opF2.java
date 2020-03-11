@@ -52,13 +52,103 @@ public class QF1opF2 extends Formula {
 
     @Override
     public String toString() {
-        return q.toString()+"("+f1.toString()+op.toString()+f2.toString()+")";
+        if(q == null) return "("+f1.toString()+" " +op.toString()+" "+f2.toString()+")";
+        return q.toString()+"("+f1.toString()+" "+op.toString()+" "+f2.toString()+")";
     }
 
     @Override
     public Formula reWrite() {
-        return null;
-        //Todo
+        //Non (F1 || F2)
+        if(q == null){
+            if(this.getParent() instanceof Negation){
+                //Non(A ou B)
+                //I transform the existing Disjunction in to a conjunction and I send it back
+                if(op instanceof  Disjunction){
+                    Negation tmpf1 = new Negation(this, f1.reWrite());
+                    Negation tmpf2 = new Negation(this, f2.reWrite());
+                    this.setQ(null);
+                    this.setOp(new Conjunction());
+                    this.setF1(tmpf1);
+                    this.setF2(tmpf2);
+                    return this;
+                }
+            }
+        }
+        //E (F1 U F2)
+        if(op instanceof Until) {
+            //A(F1 U F2) >> (!(E[ (!F2) U !(F1 || F2)]) || (A Diamond F2))
+            if (q instanceof ForAll){
+                //!F2
+                Negation nonF2 = new Negation();
+                //vu que j'ai pas de parent j'ai comence la negation a blac
+                //donc en bas on va lui atribue la reecriture de F2
+                nonF2.setF(this.getF2().reWrite());
+                //il faut etablir le parent pour la nouvelle formule
+                nonF2.getF().setParent(nonF2);
+
+                //!(F1 || F2) > initialize a "blanc"
+                Negation nonF1VF2 = new Negation();
+                //(F1 || F2) > initialize a full
+                QF1opF2 f1Vf2 = new QF1opF2(nonF1VF2, null, new Disjunction(), this.getF1().reWrite(), this.getF2().reWrite());
+                //les enfants de (F1 || F2) n'ont pas les bons parents donc on les change
+                f1Vf2.getF1().setParent(f1Vf2);
+                f1Vf2.getF2().setParent(f1Vf2);
+                //On finit !(F1 || F2)
+                nonF1VF2.setF(f1Vf2);
+                //E ( (!F2) U !(F1 || F2)) > initialize sans parent vu que c'est le seul qu'on ne connait pas
+                QF1opF2 eNonF1UNonF2 = new QF1opF2(new Every(), new Until(), nonF2, nonF1VF2);
+                //les enfants de E ( (!F2) U !(F1 || F2)) n'ont pas de parent
+                nonF2.setParent(eNonF1UNonF2);
+                nonF1VF2.setParent(eNonF1UNonF2);
+                // on a la forme !(F1 || F2) qui normalment doit se presenter sous la forme !F1 && !F2
+                //donc je relance la reecriture
+                eNonF1UNonF2.setF2(eNonF1UNonF2.getF2().reWrite());
+                //La forme final est une disjonction qui a pour neud gauche la negation de E ( (!F2) U !(F1 || F2))
+                Negation gauche = new Negation();
+                gauche.setF(eNonF1UNonF2);
+                eNonF1UNonF2.setParent(gauche);
+                //creation du neud final qu'on va retourner
+                //ce neud a la forme general F1 V F2
+                // F1=gauche et F2=A ◊ F2 = droite
+                QF1opF2 ret = new QF1opF2(this.getParent());
+                ret.setQ(null);
+                ret.setOp(new Conjunction());
+                ret.setF1(gauche);
+                gauche.setParent(ret);
+                //creation de la partie droite de la formule final
+                QopF droite = new QopF(ret, new ForAll(), new Diamond(), this.getF2().reWrite());
+                droite.getF().setParent(droite);
+                ret.setF2(droite);
+                return ret;
+            }
+            //E(F1 U F2) >> F2 || (F1 && (E◯[E(F1 U F2)]))
+            if (q instanceof  Every){
+                //[E(F1 U F2)]
+                Formula f2_clone1 = this.getF2().reWrite();
+                Formula f1_clone1 = this.getF1().reWrite();
+                QF1opF2 this_copy = new QF1opF2(new Every(), new Until(), f1_clone1, f2_clone1);
+                this_copy.getF1().setParent(this_copy);
+                this_copy.getF2().setParent(this_copy);
+                //(E◯[E(F1 U F2)])
+                QopF eRond = new QopF(new Every(), new Ring(), this_copy );
+                this_copy.setParent(eRond);
+                //(F1 && (E◯[E(F1 U F2)]))
+                Formula f1_clone2 = f1.reWrite();
+                QF1opF2 f1_et_eRond = new QF1opF2(null, new Conjunction(), f1_clone2, eRond);
+                f1_et_eRond.getF1().setParent(f1_et_eRond);
+                f1_et_eRond.getF2().setParent(f1_et_eRond);
+                //F2 || (F1 && (E◯[E(F1 U F2)]))
+                QF1opF2 ret = new QF1opF2(this.getParent(), null, new Disjunction(), this.getF2().reWrite(), f1_et_eRond);
+                this.getF1().setParent(ret);
+                this.getF2().setParent(ret);
+
+                return ret;
+            }
+        }
+        //for all the rest stay the same
+        this.setF2(this.getF2().reWrite());
+        this.setF1(this.getF1().reWrite());
+        return this;
     }
 
     public QF1opF2() {
@@ -132,5 +222,33 @@ public class QF1opF2 extends Formula {
     @Override
     public boolean hasParent() {
         return super.hasParent();
+    }
+
+    public QF1opF2(Quantificator q, Operator op, Formula f1, Formula f2) {
+        this.q = q;
+        this.op = op;
+        this.f1 = f1;
+        this.f2 = f2;
+    }
+
+    public QF1opF2(Formula parent, Quantificator q, Operator op, Formula f1, Formula f2) {
+        super(parent);
+        this.q = q;
+        this.op = op;
+        this.f1 = f1;
+        this.f2 = f2;
+    }
+
+    public QF1opF2(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f1, Formula f2) {
+        super(parent, i, marks);
+        this.q = q;
+        this.op = op;
+        this.f1 = f1;
+        this.f2 = f2;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -64,4 +64,6 @@ public abstract class  Formula {
 
     public abstract Formula reWrite();
 
+
+
 }

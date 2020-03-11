@@ -15,10 +15,6 @@ public class Atom extends Formula {
         return name;
     }
 
-    @Override
-    public Formula reWrite(Formula f) {
-        return null;
-    }
 
     public String getName() {
         return name;
@@ -93,5 +89,10 @@ public class Atom extends Formula {
     @Override
     public Formula reWrite() {
         return this;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
