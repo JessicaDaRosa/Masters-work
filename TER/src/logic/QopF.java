@@ -48,7 +48,7 @@ public class QopF extends Formula {
         return Objects.hash(getQ(), getOp(), getF());
     }
 
-    //TODO test the output when q an op are null/void
+
     @Override
     public String toString() {
         if(q == null) {

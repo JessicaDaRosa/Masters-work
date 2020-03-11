@@ -1,8 +1,6 @@
 package logic;
 
-import b.f.T;
 
-import java.util.ArrayList;
 
 public abstract class Operator {
     private final String name;
@@ -16,6 +14,4 @@ public abstract class Operator {
         return this.name;
     };
 
-    public abstract Boolean result(Boolean a, Boolean b);
-    public abstract Boolean result(ArrayList<T> a , ArrayList<T> b);
 }
