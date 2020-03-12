@@ -9,7 +9,9 @@ public abstract class  Formula {
     private ArrayList<Node> marks;
 
     public Formula(){
-
+        this.parent = null;
+        this.i = null;
+        this.marks = new ArrayList<>();
     }
 
     public Formula(Formula parent) {
@@ -48,6 +50,11 @@ public abstract class  Formula {
 
     public void mark(Node e){
         marks.add(e);
+    }
+
+    public void mark(Interpretation i)
+    {
+
     }
 
     public boolean isMarkedBy(Node e){

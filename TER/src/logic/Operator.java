@@ -12,6 +12,6 @@ public abstract class Operator {
     public String toString()
     {
         return this.name;
-    };
+    }
 
 }
