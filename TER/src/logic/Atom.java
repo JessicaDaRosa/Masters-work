@@ -38,6 +38,7 @@ public class Atom extends Formula {
     }
 
     public Atom(String name) {
+        super();
         this.name = name;
     }
 

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public abstract class  Formula {
 
     private Formula parent;
-    private Interpretation i; //TODO marquer la formule a partir de l'ajout de l'interpretation
+    private Interpretation i;
     private ArrayList<Node> marks;
 
-    public Formula(){
+    public Formula(Interpretation i){
         this.parent = null;
         this.i = null;
         this.marks = new ArrayList<>();
@@ -24,6 +24,18 @@ public abstract class  Formula {
         this.marks = marks;
     }
 
+    public Formula(Formula parent, Interpretation i) {
+        this.parent = parent;
+        this.i = i;
+        mark(i);
+    }
+
+    public Formula() {
+        this.parent = null;
+        this.i = null;
+        this.marks = new ArrayList<>();
+    }
+
     public Interpretation getI() {
         return i;
     }
@@ -34,6 +46,7 @@ public abstract class  Formula {
 
     public void setI(Interpretation i) {
         this.i = i;
+        mark(i);
     }
 
     public void setMarks(ArrayList<Node> marks) {
