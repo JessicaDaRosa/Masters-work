@@ -10,14 +10,6 @@ public class QF1opF2 extends Formula {
     private Formula f1;
     private Formula f2;
 
-    public QF1opF2(Quantificator q, Operator op, Formula f1, Formula f2, Formula parent) {
-        super(parent);
-        this.q = q;
-        this.op = op;
-        this.f1 = f1;
-        this.f2 = f2;
-    }
-
     public void setQ(Quantificator q) {
         this.q = q;
     }
@@ -176,6 +168,8 @@ public class QF1opF2 extends Formula {
     @Override
     public void setI(Interpretation i) {
         super.setI(i);
+        if(this.f1 != null)this.f1.setI(i);
+        if(this.f2 != null)this.f2.setI(i);
     }
 
     @Override
@@ -191,6 +185,9 @@ public class QF1opF2 extends Formula {
     @Override
     public void setParent(Formula parent) {
         super.setParent(parent);
+        if(parent.getI() != null && this.getI() == null){
+            this.setI(parent.getI());
+        }
     }
 
     @Override
@@ -225,6 +222,7 @@ public class QF1opF2 extends Formula {
     }
 
     public QF1opF2(Quantificator q, Operator op, Formula f1, Formula f2) {
+        super();
         this.q = q;
         this.op = op;
         this.f1 = f1;
@@ -237,6 +235,10 @@ public class QF1opF2 extends Formula {
         this.op = op;
         this.f1 = f1;
         this.f2 = f2;
+        if(parent.getI() !=null && f1.getI() == null && f2.getI() == null){
+            this.getF1().setI(parent.getI());
+            this.getF2().setI(parent.getI());
+        }
     }
 
     public QF1opF2(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f1, Formula f2) {
@@ -245,10 +247,14 @@ public class QF1opF2 extends Formula {
         this.op = op;
         this.f1 = f1;
         this.f2 = f2;
+        this.f1.setI(i);
+        this.f2.setI(i);
     }
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+
 }

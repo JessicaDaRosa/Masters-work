@@ -6,7 +6,7 @@ public class Node {
     private String name;
     private ArrayList<Node> parents;
     private ArrayList<Node> sons;
-    private ArrayList<Formula> marks;
+    private ArrayList<String> marks;
 
 
 
@@ -24,11 +24,15 @@ public class Node {
         this.marks = new ArrayList<>();
     }
 
-    public Node(String name, ArrayList<Node> parents, ArrayList<Node> sons, ArrayList<Formula> marks) {
+    public Node(String name, ArrayList<Node> parents, ArrayList<Node> sons, ArrayList<String> marks) {
         this.name = name;
         this.parents = parents;
         this.sons = sons;
         this.marks = marks;
+    }
+
+    public ArrayList<String> getMarks() {
+        return marks;
     }
 
     public String getName() {
@@ -71,7 +75,7 @@ public class Node {
         this.sons.addAll(s);
     }
 
-    public void setMarks(ArrayList<Formula> marks) {
+    public void setMarks(ArrayList<String> marks) {
         this.marks = marks;
     }
 
@@ -80,8 +84,9 @@ public class Node {
         return true;
     }
 
-    public void mark(Formula f) {
-        if (marks.indexOf(f) == -1) marks.add(f);
+    public void mark(String f) {
+        if (marks.indexOf(f) != -1) marks = new ArrayList<>();
+        marks.add(f);
     }
 
     public void clearMarks() {
@@ -94,6 +99,7 @@ public class Node {
 
     public Node() {
         super();
+        marks = new ArrayList<>();
     }
 
     @Override
@@ -114,5 +120,14 @@ public class Node {
     @Override
     public String toString() {
         return super.toString();
+    }
+    //I'm using the formula in its string form because the formula comparing method uses the parent o the formula to test
+    //ans in this case I'm only interested in it's written form
+    public boolean isMarkedBy(String formula){
+        for (int i = 0; i < this.marks.size() ; i++)
+        {
+            if (this.marks.get(i).toString().equals(formula))return true;
+        }
+        return false;
     }
 }

@@ -1,7 +1,5 @@
 package logic;
 
-import b.f.T;
-
 import java.util.ArrayList;
 
 public class Negation extends Formula {
@@ -16,6 +14,7 @@ public class Negation extends Formula {
     public Negation(Formula parent, Interpretation i, ArrayList<Node> marks, Formula f) {
         super(parent, i, marks);
         this.f = f;
+        this.f.setI(i);
     }
 
     protected Negation() {
@@ -38,6 +37,7 @@ public class Negation extends Formula {
     @Override
     public void setI(Interpretation i) {
         super.setI(i);
+        if(this.f !=null)this.f.setI(i);
     }
 
     @Override
@@ -62,6 +62,10 @@ public class Negation extends Formula {
 
     public void setF(Formula f) {
         this.f = f;
+        if(this.getI() != null && f.getI() == null)
+        {
+            this.f.setI(this.getI());
+        }
     }
 
     public Formula getF() {
@@ -78,7 +82,6 @@ public class Negation extends Formula {
         if (this.getF() instanceof Atom) return "¬" + f.toString();
         return "¬(" + f.toString() + ")";
     }
-
 
     @Override
     public boolean isMarkedBy(Node e) {

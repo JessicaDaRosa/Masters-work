@@ -60,6 +60,7 @@ public class QopF extends Formula {
     }
 
     public QopF(Quantificator q, Operator op, Formula f) {
+        super();
         this.q = q;
         this.op = op;
         this.f = f;
@@ -70,6 +71,7 @@ public class QopF extends Formula {
         this.q = q;
         this.op = op;
         this.f = f;
+        if(parent.getI() != null && this.getI() == null) this.setI(parent.getI());
     }
 
     public QopF(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f) {
@@ -92,6 +94,8 @@ public class QopF extends Formula {
     @Override
     public void setI(Interpretation i) {
         super.setI(i);
+        if(this.f != null)this.f.setI(i);
+
     }
 
     @Override
@@ -213,5 +217,11 @@ public class QopF extends Formula {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public QopF(Formula parent, Interpretation i) {
+        super(parent, i);
+    }
+
+
 
 }

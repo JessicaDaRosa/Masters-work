@@ -52,8 +52,17 @@ public abstract class  Formula {
         marks.add(e);
     }
 
-    public void mark(Interpretation i)
-    {
+    //thecnically this does SAT de la formule par apport a l'interpretation
+    private void mark(Interpretation i)
+    {   Node temp;
+        String meString = this.toString();
+        //Going through all the nodes in the graph
+        for (int j = 0; j<i.getTree().size(); j++)
+        {
+            temp = i.getTree().get(j);
+            if(temp.isMarkedBy(meString)) this.mark(temp);
+
+        }
 
     }
 
