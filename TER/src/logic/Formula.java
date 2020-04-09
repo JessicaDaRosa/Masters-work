@@ -91,8 +91,65 @@ public abstract class  Formula {
 
     public abstract String toString();
 
+    // formule de reecriture pour le model checking
     public abstract Formula reWrite();
 
+    // formule de reecriture en forme normal de negation
+    public  Formula toNegation(){
+        Formula ret = this;
+        //si moi je suis une negation
+        if (this instanceof Negation)
+        {
+            //si mon enfant est un atome
+            if(((Negation)this).getF() instanceof Atom)
+            {
+                //on est arrive a la fin et du coup o a que "rentrer"
+                return this;
+            }
+        }
+    }
+
+    private boolean isInNegationForm(){
+         ArrayList<Formula> toCheck= new ArrayList<>();
+         toCheck.add(this);
+         int checked = 0;
+         while(checked != toCheck.size())
+         {
+             if(toCheck.get(checked) instanceof Negation)
+             {
+                 toCheck.add(((Negation)toCheck.get(checked)).getF());
+
+             }
+             if(toCheck.get(checked) instanceof QF1opF2)
+             {
+                toCheck.add(((QF1opF2)toCheck.get(checked)).getF1());
+                toCheck.add(((QF1opF2)toCheck.get(checked)).getF2());
+
+             }
+             if(toCheck.get(checked) instanceof QopF)
+             {
+                toCheck.add(((QopF)toCheck.get(checked)).getF());
+             }
+             checked =+ 1;
+         }
+        for (Formula formula : toCheck) {
+            if (formula instanceof Negation) {
+                Negation negation = (Negation) formula;
+                //si l'enfant de la negation est une negation on va les enlevee
+                if(negation.getF() instanceof Negation)
+                {
+                    Formula newshild = ((Negation)negation.getF()).getF();
+                    newshild.setParent(negation.getParent());
+                    //il faut determiner d'ou vien la negation
+                    if(negation.getParent() !=null && negation.getParent() instanceof QopF)
+                    {
+                        ((QopF) negation.getParent()).setF(newshild);
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 
 }

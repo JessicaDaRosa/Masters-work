@@ -143,6 +143,7 @@ public class QF1opF2 extends Formula {
         return this;
     }
 
+
     public QF1opF2() {
         super();
     }

@@ -90,7 +90,6 @@ public class Negation extends Formula {
 
     @Override
     public Formula reWrite() {
-
         return this;
     }
 
