@@ -100,14 +100,15 @@ public abstract class  Formula {
     public boolean isInNegationForm(){
          ArrayList<Formula> toCheck= new ArrayList<>();
          toCheck.add(this);
+         int previous = 42;
          int checked = 0;
          //collecte de tout les "neuds" de la for,ule dans une liste
-         while(checked != toCheck.size())
+         while(previous != toCheck.size())
          {
+             previous = toCheck.size();
              if(toCheck.get(checked) instanceof Negation)
              {
                  toCheck.add(((Negation)toCheck.get(checked)).getF());
-
              }
              if(toCheck.get(checked) instanceof QF1opF2)
              {
@@ -119,8 +120,10 @@ public abstract class  Formula {
              {
                 toCheck.add(((QopF)toCheck.get(checked)).getF());
              }
-             checked =+ 1;
+             checked++;
+
          }
+
         for (Formula formula : toCheck) {
             if (formula instanceof Negation) {
                 Negation negation = (Negation) formula;

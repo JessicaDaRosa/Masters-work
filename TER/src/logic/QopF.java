@@ -71,7 +71,7 @@ public class QopF extends Formula {
         this.q = q;
         this.op = op;
         this.f = f;
-        if(parent.getI() != null && this.getI() == null) this.setI(parent.getI());
+        if(parent != null && parent.getI() != null && this.getI() == null) this.setI(parent.getI());
     }
 
     public QopF(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f) {

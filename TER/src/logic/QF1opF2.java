@@ -236,7 +236,7 @@ public class QF1opF2 extends Formula {
         this.op = op;
         this.f1 = f1;
         this.f2 = f2;
-        if(parent.getI() !=null && f1.getI() == null && f2.getI() == null){
+        if(parent != null && parent.getI() !=null && f1.getI() == null && f2.getI() == null){
             this.getF1().setI(parent.getI());
             this.getF2().setI(parent.getI());
         }
@@ -264,5 +264,10 @@ public class QF1opF2 extends Formula {
         if(! this.getF2().isInNegationForm())
             this.setF2(this.getF2().toNegation());
         return this;
+    }
+
+    @Override
+    public boolean isInNegationForm() {
+        return super.isInNegationForm();
     }
 }

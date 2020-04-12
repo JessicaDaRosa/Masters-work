@@ -10,23 +10,23 @@ public class Main {
 
         Formula aRondF = new QopF(null, new ForAll(), new Ring(), f);
         f.setParent(aRondF);
-        System.out.println(aRondF.toString() + " -----> " + aRondF.reWrite().toString());
+        //System.out.println(aRondF.toString() + " -----> " + aRondF.reWrite().toString());
 
         Formula eDiamondF = new QopF(null, new Every(), new Diamond(), f);
         f.setParent(eDiamondF);
-        System.out.println(eDiamondF.toString() + " ------> " + eDiamondF.reWrite().toString());
+        //System.out.println(eDiamondF.toString() + " ------> " + eDiamondF.reWrite().toString());
 
         Formula aSqF = new QopF(null, new ForAll(), new Square(), f);
         f.setParent(aSqF);
-        System.out.println(aSqF.toString() + " -----> " + aSqF.reWrite().toString());
+        //System.out.println(aSqF.toString() + " -----> " + aSqF.reWrite().toString());
 
         Formula eCarreF = new QopF(null, new Every(), new Square(), f);
         f.setParent(eCarreF);
-        System.out.println(eCarreF.toString() + " ---->" + eCarreF.reWrite().toString());
+        //System.out.println(eCarreF.toString() + " ---->" + eCarreF.reWrite().toString());
 
         Formula aDiamondF = new QopF(null, new ForAll(), new Diamond(), eCarreF);
         eCarreF.setParent(aDiamondF);
-        System.out.println(aDiamondF.toString() + " -----> " + aDiamondF.reWrite().toString());
+        //System.out.println(aDiamondF.toString() + " -----> " + aDiamondF.reWrite().toString());
 
         Formula e_u = new QF1opF2(new Every(), new Until(), aDiamondF, aSqF);
         System.out.println(e_u.toString() + " -----> " + e_u.reWrite().toString());
@@ -34,10 +34,14 @@ public class Main {
         //test de la recursivite
         ((QopF)aRondF).setF(eDiamondF);
         eDiamondF.setParent(aRondF);
-        System.out.println(aRondF.toString() + " -----> " + aRondF.reWrite().toString());
-        System.out.println(eDiamondF.toString()+ " parent -> "+ eDiamondF.getParent().toString());
+        //System.out.println(aRondF.toString() + " -----> " + aRondF.reWrite().toString());
+        //System.out.println(eDiamondF.toString()+ " parent -> "+ eDiamondF.getParent().toString());
 
 
+        Formula e_u_rewite = e_u.reWrite();
+        Formula negTest = e_u_rewite.toNegation();
+        System.out.println(e_u_rewite.isInNegationForm());
+        System.out.println(e_u.toString() + " ----->\n " + e_u_rewite.toString()+ " ----->\n " + negTest.reWrite().toString());
     }
 
 }
