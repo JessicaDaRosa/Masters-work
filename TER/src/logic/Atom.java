@@ -96,4 +96,9 @@ public class Atom extends Formula {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    @Override
+    public Formula toNegation() {
+        return this;
+    }
 }

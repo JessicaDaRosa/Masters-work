@@ -107,4 +107,23 @@ public class Negation extends Formula {
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    @Override
+    public Formula toNegation() {
+        //si mon enfant est aussi une negation on va s'anuller
+        if(this.getF() instanceof Negation)
+        {
+            Formula newson = ((Negation)this.getF()).getF();
+            //d'abord on va chercher le parent
+            //si le parent est QopF
+            if(this.getF() != null && this.getF() instanceof QopF)
+            {
+
+                ((QopF)this.getParent()).setF(((Negation) this.getF()).getF());
+                ((Negation)this.getF()).getF().setParent(this.getParent());
+
+            }
+            return newson;
+        }
+    }
 }

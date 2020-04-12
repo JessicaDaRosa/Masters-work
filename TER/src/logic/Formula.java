@@ -95,24 +95,13 @@ public abstract class  Formula {
     public abstract Formula reWrite();
 
     // formule de reecriture en forme normal de negation
-    public  Formula toNegation(){
-        Formula ret = this;
-        //si moi je suis une negation
-        if (this instanceof Negation)
-        {
-            //si mon enfant est un atome
-            if(((Negation)this).getF() instanceof Atom)
-            {
-                //on est arrive a la fin et du coup o a que "rentrer"
-                return this;
-            }
-        }
-    }
+    public abstract Formula toNegation();
 
-    private boolean isInNegationForm(){
+    public boolean isInNegationForm(){
          ArrayList<Formula> toCheck= new ArrayList<>();
          toCheck.add(this);
          int checked = 0;
+         //collecte de tout les "neuds" de la for,ule dans une liste
          while(checked != toCheck.size())
          {
              if(toCheck.get(checked) instanceof Negation)
@@ -135,20 +124,11 @@ public abstract class  Formula {
         for (Formula formula : toCheck) {
             if (formula instanceof Negation) {
                 Negation negation = (Negation) formula;
-                //si l'enfant de la negation est une negation on va les enlevee
-                if(negation.getF() instanceof Negation)
-                {
-                    Formula newshild = ((Negation)negation.getF()).getF();
-                    newshild.setParent(negation.getParent());
-                    //il faut determiner d'ou vien la negation
-                    if(negation.getParent() !=null && negation.getParent() instanceof QopF)
-                    {
-                        ((QopF) negation.getParent()).setF(newshild);
-                    }
-                }
+                if(!(negation.getF() instanceof Atom))
+                    return false;
             }
         }
-        return false;
+        return true;
     }
 
 

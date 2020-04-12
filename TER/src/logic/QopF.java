@@ -224,4 +224,10 @@ public class QopF extends Formula {
 
 
 
+    @Override
+    public Formula toNegation() {
+        if(!this.getF().isInNegationForm())
+            this.setF(this.f.toNegation());
+        return this;
+    }
 }

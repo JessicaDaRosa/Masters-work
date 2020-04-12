@@ -257,5 +257,12 @@ public class QF1opF2 extends Formula {
         return super.clone();
     }
 
-
+    @Override
+    public Formula toNegation() {
+        if(! this.getF1().isInNegationForm())
+            this.setF1(this.getF1().toNegation());
+        if(! this.getF2().isInNegationForm())
+            this.setF2(this.getF2().toNegation());
+        return this;
+    }
 }
