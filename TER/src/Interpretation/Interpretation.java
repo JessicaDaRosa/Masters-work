@@ -91,23 +91,25 @@ public class Interpretation {
             if(((QopF) f).getQ() instanceof ForAll && ((QopF) f).getOp() instanceof Square){
                 ArrayList<Node> temp = new ArrayList<>();
                 String testSub2 = ((QopF) f).getF().toString();
+                ArrayList<Node> toReturn = new ArrayList<>;
                 for(int i = 0; i<tree.size();i++){
                     if(!tree.get(i).isMarkedBy(testSub2))
                         temp.add(tree.get(i));
                     for (Node s : res_list){
-                        boolean inersectionEmpty = false;
+                        boolean intersectionEmpty = true;
                         for(Node son : s.getSons()){
                             if (temp.contains(son))
-                                inersectionEmpty = true;
+                                intersectionEmpty = false;
                         }
-                        if (!inersectionEmpty){
+                        if (!intersectionEmpty){
                             s.mark(testSub);
-                            res_list.add(s);
+                            toReturn.add(s);
                         }
 
                     }
 
                 }
+                return toReturn;
             }
             
             //E Rond F
