@@ -86,6 +86,30 @@ public class Interpretation {
         {
             //vu qu'on fait sat du bas vers le haut on lance sat "d'embas d'abord
             res_list = this.sat_(((QopF) f).getF());
+            
+            //A carré F
+            if(((QopF) f).getQ() instanceof ForAll && ((QopF) f).getOp() instanceof Square){
+                ArrayList<Node> temp = new ArrayList<>();
+                String testSub2 = ((QopF) f).getF().toString();
+                for(int i = 0; i<tree.size();i++){
+                    if(!tree.get(i).isMarkedBy(testSub2))
+                        temp.add(tree.get(i));
+                    for (Node s : res_list){
+                        boolean inersectionEmpty = false;
+                        for(Node son : s.getSons()){
+                            if (temp.contains(son))
+                                inersectionEmpty = true;
+                        }
+                        if (!inersectionEmpty){
+                            s.mark(testSub);
+                            res_list.add(s);
+                        }
+
+                    }
+
+                }
+            }
+            
             //E Rond F
             if(((QopF) f).getQ() instanceof Every && ((QopF) f).getOp() instanceof Ring)
             {
