@@ -62,16 +62,6 @@ public class Interpretation {
     private ArrayList <Node> sat_(Formula f){
         String testSub = f.toString(); //si jamais on a une formule compliquee on n'a pas a refaire le calcul.
         ArrayList<Node> res_list = new ArrayList<>();
-        if(f instanceof Atom)
-        {
-            //parcour de tout les neuds dans l'arbre
-            for(int i = 0; i < tree.size() ; i++ )
-            {
-                if(tree.get(i).isMarkedBy(testSub))
-                    res_list.add(tree.get(i));
-            }
-            return res_list;
-        }
         if (f instanceof Negation)
         {
             //je lance sat avec la sous formule car si ce nest pas un atome la sous formule est traitée d'abor
@@ -157,7 +147,17 @@ public class Interpretation {
                         tree.get(tree.indexOf(satF1.get(i))).mark(testSub);
                     }
                 }
-                return res_list;
+            }
+            // f1 V f2
+            if(((QF1opF2) f).getOp() instanceof Disjunction && ((QF1opF2) f).getQ() == null)
+            {
+                assert satF2 != null;
+                res_list.addAll(satF2);
+                assert satF1 != null;
+                for (Node element : satF1) {
+                    if(!satF2.contains(element))res_list.add(element);
+                }
+
             }
             //E(F1 u F2)
             if(((QF1opF2) f).getOp() instanceof Until && ((QF1opF2) f).getQ() instanceof Every)
@@ -182,11 +182,17 @@ public class Interpretation {
                         }
                     }
                 }
-                return res_list;
             }
-
+            return res_list;
         }
-        return  null;
+        //si on ne rentre pas dans un des if on est un atome et du coup on lance le suivant:
+        //parcour de tout les neuds dans l'arbre
+        for(int i = 0; i < tree.size() ; i++ )
+        {
+            if(tree.get(i).isMarkedBy(testSub))
+                res_list.add(tree.get(i));
+        }
+        return res_list;
     }
 
     //je vais faire une sorte de a* avec un map des sommets deja visit'es et
