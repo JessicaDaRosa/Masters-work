@@ -11,6 +11,8 @@ public class Node {
     private ArrayList<Node> following;
     private Node previous;
 
+    //TODO: Constructors XD (forgot about them)
+
     public ArrayList<Node> getFollowing() {
         return following;
     }

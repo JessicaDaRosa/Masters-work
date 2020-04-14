@@ -68,7 +68,7 @@ public class Tree {
             if(n.getTo_develop().get(i) instanceof Negation)
             {
                 Negation f1 = (Negation)n.getTo_develop().get(i);
-
+                //todo: continue here!!!
             }
         }
         i = hasDisjuntionFormula(n);
