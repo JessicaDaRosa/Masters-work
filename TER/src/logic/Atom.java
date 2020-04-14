@@ -1,5 +1,8 @@
 package logic;
 
+import Interpretation.Interpretation;
+import Interpretation.Node;
+
 import java.util.ArrayList;
 import java.util.Objects;
 

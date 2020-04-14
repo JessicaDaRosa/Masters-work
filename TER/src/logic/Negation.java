@@ -1,5 +1,8 @@
 package logic;
 
+import Interpretation.Interpretation;
+import Interpretation.Node;
+
 import java.util.ArrayList;
 
 public class Negation extends Formula {

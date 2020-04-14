@@ -1,4 +1,7 @@
-package logic;
+package Interpretation;
+
+import logic.Formula;
+import logic.Interpretation;
 
 import java.util.ArrayList;
 

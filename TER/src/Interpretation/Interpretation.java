@@ -1,4 +1,6 @@
-package logic;
+package Interpretation;
+
+import logic.*;
 
 import java.util.ArrayList;
 import java.util.Objects;

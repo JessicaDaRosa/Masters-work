@@ -1,6 +1,7 @@
 package Tableau;
 import logic.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -11,7 +12,34 @@ public class Node {
     private ArrayList<Node> following;
     private Node previous;
 
-    //TODO: Constructors XD (forgot about them)
+    public void Node()
+    {
+        this.to_develop = new ArrayList<>();
+        this.marks = new ArrayList<>();
+        this.following = new ArrayList<>();
+    }
+    public void Node(ArrayList<Formula> marks, ArrayList<Formula>to_develop)
+    {
+        Node();
+        this.marks.addAll(marks);
+        this.to_develop.addAll(to_develop);
+    }
+    public void Node(ArrayList<Formula> marks, ArrayList<Formula> to_develop, Node previous )
+    {
+        Node();
+        this.marks.addAll(marks);
+        this.to_develop.addAll(to_develop);
+        this.previous = previous;
+    }
+    public void Node(int number, ArrayList<Formula> marks, ArrayList<Formula> to_develop, ArrayList<Node> following, Node previous)
+    {
+        Node();
+        this.number = number;
+        this.marks.addAll(marks);
+        this.to_develop.addAll(to_develop);
+        this.following.addAll(following);
+        this.previous = previous;
+    }
 
     public ArrayList<Node> getFollowing() {
         return following;

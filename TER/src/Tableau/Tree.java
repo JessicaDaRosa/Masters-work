@@ -65,10 +65,26 @@ public class Tree {
         ArrayList<Node> ret = new ArrayList<>() ;
         if(!(i==-1))
         {
+
+            if(n.getTo_develop().size() > 1)
+            {
+                for(int j =0; j < n.getTo_develop().size() ; j++)
+                {
+                    if(j != i)
+                    {
+
+                    }
+                }
+            }
             if(n.getTo_develop().get(i) instanceof Negation)
             {
                 Negation f1 = (Negation)n.getTo_develop().get(i);
-                //todo: continue here!!!
+                if(f1.getF() instanceof Negation)
+                {
+                    ArrayList<Formula> tDvl1 = new ArrayList<>();
+                    tDvl1.add(((Negation)f1.getF()).getF());
+
+                }
             }
         }
         i = hasDisjuntionFormula(n);
