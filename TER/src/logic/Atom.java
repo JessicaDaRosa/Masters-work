@@ -104,4 +104,11 @@ public class Atom extends Formula {
     public Formula toNegation() {
         return this;
     }
+
+    @Override
+    public boolean isTheSameAsMe(Formula f) {
+        if(f instanceof Atom)
+            return this.toString().equals(f.toString());
+        return false;
+    }
 }

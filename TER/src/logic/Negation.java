@@ -12,12 +12,14 @@ public class Negation extends Formula {
     public Negation(Formula parent, Formula f) {
         super(parent);
         this.f = f;
+        f.setParent(this);
     }
 
     public Negation(Formula parent, Interpretation i, ArrayList<Node> marks, Formula f) {
         super(parent, i, marks);
         this.f = f;
         this.f.setI(i);
+        f.setParent(this);
     }
 
     protected Negation() {
@@ -65,6 +67,7 @@ public class Negation extends Formula {
 
     public void setF(Formula f) {
         this.f = f;
+        f.setParent(this);
         if(this.getI() != null && f.getI() == null)
         {
             this.f.setI(this.getI());
@@ -122,6 +125,15 @@ public class Negation extends Formula {
     @Override
     public boolean isInNegationForm() {
         return super.isInNegationForm();
+    }
+
+    @Override
+    public boolean isTheSameAsMe(Formula f) {
+        if(f instanceof Negation)
+        {
+            return this.toString().equals(f.toString());
+        }
+        return false;
     }
 
     @Override

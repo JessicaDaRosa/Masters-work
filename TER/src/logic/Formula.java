@@ -76,30 +76,52 @@ public abstract class  Formula {
         for (int j = 0; j<i.getTree().size(); j++)
         {
             temp = i.getTree().get(j);
-            if(temp.isMarkedBy(meString)) this.mark(temp);
-
+            if(temp.isMarkedBy(meString))
+                this.mark(temp);
         }
-
     }
 
+    /**
+     * tells if a formula is marked by a certain node of th interpretation
+     * @param e
+     * @return boolean
+     */
     public boolean isMarkedBy(Node e){
         if(marks.indexOf(e) == -1) return false;
         return true;
     }
 
+    /**
+     * Tells if a formula as a parent or not
+     * @return boolean
+     */
     public boolean hasParent(){
-        if (this.parent != null) return false;
-        return true;
+        if (this.parent != null)
+            return true;
+        return false;
     }
 
+    /**
+     * simple String output
+     * @return String
+     */
     public abstract String toString();
-
-    // formule de reecriture pour le model checking
+    /**
+     * this will return an equivalent of the given formula that can be used on CTL model checking
+     * @return Formula
+     */
     public abstract Formula reWrite();
 
-    // formule de reecriture en forme normal de negation
+    /**
+     * This will transforma formula in to it's negation form
+     * @return Formula
+     */
     public abstract Formula toNegation();
 
+    /**
+     * this will tell if a formula is or is not in normal negation form
+     * @return boolean
+     */
     public boolean isInNegationForm(){
          ArrayList<Formula> toCheck= new ArrayList<>();
          toCheck.add(this);
@@ -137,5 +159,10 @@ public abstract class  Formula {
         return true;
     }
 
-
+    /**
+     * This Function verifies that the written output of two functions is the same there by we have the same function
+     * @param f
+     * @return boolean
+     */
+    public abstract boolean isTheSameAsMe(Formula f);
 }

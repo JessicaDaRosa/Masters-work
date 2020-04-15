@@ -23,10 +23,12 @@ public class QF1opF2 extends Formula {
 
     public void setF1(Formula f1) {
         this.f1 = f1;
+        f1.setParent(this);
     }
 
     public void setF2(Formula f2) {
         this.f2 = f2;
+        f2.setParent(this);
     }
 
     public Operator getOp() {
@@ -231,6 +233,8 @@ public class QF1opF2 extends Formula {
         this.op = op;
         this.f1 = f1;
         this.f2 = f2;
+        f1.setParent(this);
+        f2.setParent(this);
     }
 
     public QF1opF2(Formula parent, Quantificator q, Operator op, Formula f1, Formula f2) {
@@ -243,6 +247,8 @@ public class QF1opF2 extends Formula {
             this.getF1().setI(parent.getI());
             this.getF2().setI(parent.getI());
         }
+        f1.setParent(this);
+        f2.setParent(this);
     }
 
     public QF1opF2(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f1, Formula f2) {
@@ -253,6 +259,8 @@ public class QF1opF2 extends Formula {
         this.f2 = f2;
         this.f1.setI(i);
         this.f2.setI(i);
+        f1.setParent(this);
+        f2.setParent(this);
     }
 
     @Override
@@ -273,4 +281,15 @@ public class QF1opF2 extends Formula {
     public boolean isInNegationForm() {
         return super.isInNegationForm();
     }
+
+    @Override
+    public boolean isTheSameAsMe(Formula f) {
+        if(f instanceof QF1opF2)
+        {
+            return this.toString().equals(f.toString());
+        }
+        return false;
+    }
+
+
 }

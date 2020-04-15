@@ -26,6 +26,7 @@ public class QopF extends Formula {
 
     public void setF(Formula f) {
         this.f = f;
+        f.setParent(this);
     }
 
     public void setOp(Operator op) {
@@ -67,6 +68,7 @@ public class QopF extends Formula {
         this.q = q;
         this.op = op;
         this.f = f;
+        f.setParent(this);
     }
 
     public QopF(Formula parent, Quantificator q, Operator op, Formula f) {
@@ -74,6 +76,7 @@ public class QopF extends Formula {
         this.q = q;
         this.op = op;
         this.f = f;
+        f.setParent(this);
         if(parent != null && parent.getI() != null && this.getI() == null) this.setI(parent.getI());
     }
 
@@ -82,6 +85,7 @@ public class QopF extends Formula {
         this.q = q;
         this.op = op;
         this.f = f;
+        f.setParent(this);
     }
 
     @Override
@@ -232,5 +236,14 @@ public class QopF extends Formula {
         if(!this.getF().isInNegationForm())
             this.setF(this.f.toNegation());
         return this;
+    }
+
+    @Override
+    public boolean isTheSameAsMe(Formula f) {
+        if(f instanceof QopF)
+        {
+            return this.toString().equals(f.toString());
+        }
+        return false;
     }
 }

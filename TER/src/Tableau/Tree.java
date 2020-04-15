@@ -59,30 +59,59 @@ public class Tree {
         }
     }
 
+    /**
+     * This is a function that will look at a node and do the appropriate action giving us it's list of successors
+     * if the list is empty then the node has none
+     * @param n
+     * @return ArrayList</Node>
+     */
     private ArrayList<Node> traiter(Node n)
     {
+        //choice of the formula to develop from the node
         int i = hasConjunctionFormula(n);
         ArrayList<Node> ret = new ArrayList<>() ;
         if(!(i==-1))
         {
-
+            //this will be the to_develop of the "infant" nodes
+            ArrayList<Formula> tDvl1 = new ArrayList<>();
+            //if there are some formulas to carry over to the infants this is where we get them
             if(n.getTo_develop().size() > 1)
             {
                 for(int j =0; j < n.getTo_develop().size() ; j++)
                 {
                     if(j != i)
                     {
-
+                        tDvl1.add(n.getTo_develop().get(j));
                     }
                 }
             }
+            //Si ona une negation
             if(n.getTo_develop().get(i) instanceof Negation)
             {
                 Negation f1 = (Negation)n.getTo_develop().get(i);
                 if(f1.getF() instanceof Negation)
                 {
-                    ArrayList<Formula> tDvl1 = new ArrayList<>();
                     tDvl1.add(((Negation)f1.getF()).getF());
+                    //todo: missing the markings
+                    Node nTmp = new Node();
+                    nTmp.getTo_develop().addAll(tDvl1);
+                    ret.add(nTmp);
+                }
+                Node n1 = new Node();
+                n1.getTo_develop().addAll(tDvl1);
+                Node n2 = new Node();
+                n2.getTo_develop().addAll(tDvl1);
+                if(f1.getF() instanceof QF1opF2)
+                {
+                    Negation a;
+                    Negation b;
+                    QF1opF2 temp = (QF1opF2)f1.getF();
+                    if(temp.getQ() == null && temp.getOp() instanceof Disjunction)
+                    {
+                        a = new Negation(null, temp.getF1());
+                        b = new Negation(null, temp.getF2());
+
+                    }
 
                 }
             }
@@ -194,6 +223,41 @@ public class Tree {
         }
         if(f instanceof Negation)
             return isSuccessor(((Negation)f).getF());
+        return false;
+    }
+
+    /**
+     * This is to tell if we have f and !f to be dealth with so that we can "close" thebranch
+     * @param list
+     * @return boolean
+     */
+    private boolean thereIsAContradiction(ArrayList<Formula> list)
+    {
+        if(list.size() > 1) {
+            ArrayList<Negation> negTeam = new ArrayList<>();
+            ArrayList<Formula> allTheRest = new ArrayList<>();
+            for(Formula temp : list)
+            {
+                if(temp instanceof Negation)
+                {
+                    negTeam.add((Negation)temp);
+                }
+                else
+                {
+                    allTheRest.add(temp);
+                }
+            }
+            if(negTeam.size() == 0)
+                return false;
+            for(Negation temp : negTeam)
+            {
+                for(Formula tempF : allTheRest)
+                {
+                    if(temp.getF().isTheSameAsMe(tempF))
+                        return true;
+                }
+            }
+        }
         return false;
     }
 }
