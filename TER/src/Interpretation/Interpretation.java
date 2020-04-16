@@ -187,6 +187,35 @@ public class Interpretation {
                 }
 
             }
+             //A(F1 U F2)
+            if(((QF1opF2) f).getOp() instanceof Until && ((QF1opF2) f).getQ() instanceof ForAll){
+                //marquer tout les sommets dans sat(f2)
+                for(int i =0; i<satF2.size(); i++)
+                {
+                    tree.get(tree.indexOf(satF2.get(i))).mark(testSub);
+                    res_list.add(satF2.get(i));
+                }
+                int taille = 0;
+                //répéter jusqu'à ne plus trouver de nouvel état
+                while(taille != satF1.size()){
+                    taille = satF1.size();
+                    //pour tous les états dans Sat(F1), on vérifie que les successeurs sont tous marqués
+                    for(int i = 0; i<satF2.size();i++){
+                        boolean containAll = true;
+                        for (Node s :satF2.get(i).getSons()){
+                           if (!res_list.contains(s)) 
+                               containAll = false;
+                        }
+                        //si tous les successeurs sont marqués, marquer l'état
+                        if (containAll){
+                            tree.get(tree.indexOf(satF1.get(i))).mark(testSub);
+                            res_list.add(satF1.get(i));
+                            satF1.remove(i);
+                        }
+                    }
+                }
+            }
+            
             //E(F1 u F2)
             if(((QF1opF2) f).getOp() instanceof Until && ((QF1opF2) f).getQ() instanceof Every)
             {
