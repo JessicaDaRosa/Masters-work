@@ -126,6 +126,28 @@ public class Interpretation {
                 }
                 return res_list;
             }
+            //E diamond F
+            if(((QopF) f).getQ() instanceof  Every && ((QopF) f).getOp() instanceof Diamond){
+                //on commence par marquer tout les sommets qui sont dans sat(F)
+                for(int i = 0; i<res_list.size();i++) {
+                    tree.get(tree.indexOf(res_list.get(i))).mark(testSub);
+                }
+                //répéter jusqu'a ne plus trouver de nouvel état ie taille(res_list) soit stable
+                int sizeRes = 0;
+                while (sizeRes !=res_list.size()){
+                    sizeRes=res_list.size();
+                    //marquer les prédécesseurs des états marqués 
+                    for (Node s : res_list){
+                        for (Node p : s.getParents()){
+                            if (! p.isMarkedBy(testSub)){
+                                p.mark(testSub);
+                                res_list.add(p);
+                            }
+                        }
+                    } 
+                }
+                
+            }
             //A Diamon F
             if(((QopF) f).getQ() instanceof  ForAll && ((QopF) f).getOp() instanceof Diamond)
             {
