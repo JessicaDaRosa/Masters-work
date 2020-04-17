@@ -1,37 +1,46 @@
 package Interpretation;
 
 import logic.Formula;
-import logic.Interpretation;
 
 import java.util.ArrayList;
 
-public class Node {
+public class State {
     private String name;
-    private ArrayList<Node> parents;
-    private ArrayList<Node> sons;
+    private ArrayList<State> predecessors;
+    private ArrayList<State> successors;
+    private ArrayList<String> labels;
     private ArrayList<String> marks;
 
 
 
-    public Node(String name) {
+    public State(String name) {
         this.name = name;
-        this.parents = new ArrayList<>();
-        this.sons = new ArrayList<>();
+        this.predecessors = new ArrayList<>();
+        this.successors = new ArrayList<>();
         this.marks = new ArrayList<>();
     }
 
-    public Node(String name, ArrayList<Node> parents, ArrayList<Node> sons) {
+    public State(String name, ArrayList<State> predecessors, ArrayList<State> successors) {
         this.name = name;
-        this.parents = parents;
-        this.sons = sons;
+        this.predecessors = predecessors;
+        this.successors = successors;
         this.marks = new ArrayList<>();
     }
 
-    public Node(String name, ArrayList<Node> parents, ArrayList<Node> sons, ArrayList<String> marks) {
+    public State(String name, ArrayList<State> predecessors, ArrayList<State> successors, ArrayList<String> labels) {
         this.name = name;
-        this.parents = parents;
-        this.sons = sons;
-        this.marks = marks;
+        this.predecessors = predecessors;
+        this.successors = successors;
+        this.labels = labels;
+        this.marks=labels;
+    }
+
+    public State(String name, ArrayList<String> labels) {
+        this.name = name;
+        this.labels = labels;
+        this.marks=labels;
+        this.predecessors = new ArrayList<>();
+        this.successors = new ArrayList<>();
     }
 
     public ArrayList<String> getMarks() {
@@ -42,41 +51,46 @@ public class Node {
         return name;
     }
 
-    public ArrayList<Node> getParents() {
-        return parents;
+    public ArrayList<State> getPredecessors() {
+        return predecessors;
     }
 
-    public ArrayList<Node> getSons() {
-        return sons;
+    public ArrayList<State> getSuccessors() {
+        return successors;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setParents(ArrayList<Node> parents) {
-        this.parents = parents;
+    public void setPredecessors(ArrayList<State> predecessors) {
+        this.predecessors = predecessors;
     }
 
-    public void setSons(ArrayList<Node> sons) {
-        this.sons = sons;
+    public void setSuccessors(ArrayList<State> successors) {
+        this.successors = successors;
+        for (State child : successors){
+            child.addParent(this);
+        }
     }
 
-    public void addParent(Node p) {
-        this.parents.add(p);
+    public void addParent(State p) {
+        this.predecessors.add(p);
     }
 
-    public void addParents(ArrayList<Node> p) {
-        this.parents.addAll(p);
+    public void addParents(ArrayList<State> p) {
+        this.predecessors.addAll(p);
     }
 
-    public void addSon(Node s) {
-        this.sons.add(s);
+    public void addSon(State s) {
+        this.successors.add(s);
     }
 
-    public void addSons(ArrayList<Node> s) {
-        this.sons.addAll(s);
+    public void addSons(ArrayList<State> s) {
+        this.successors.addAll(s);
     }
+
+    public void setLabels(ArrayList<String> labels){ this.labels = labels; marks = labels;}
 
     public void setMarks(ArrayList<String> marks) {
         this.marks = marks;
@@ -100,7 +114,7 @@ public class Node {
         marks.remove(f);
     }
 
-    public Node() {
+    public State() {
         super();
         marks = new ArrayList<>();
     }
