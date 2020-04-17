@@ -17,10 +17,11 @@ public class main {
         e.add("r");
         State s3 = new State ("s3",e);
         e.clear();
-        e.add("q");
-        State s2 = new State("s2",e);
-        e.add("p");
-        State s4 = new State("s4", e);
+        ArrayList<String> f = new ArrayList<>();
+        f.add("q");
+        State s2 = new State("s2",f);
+        f.add("p");
+        State s4 = new State("s4", f);
 
         //ajout des relations entre les états
         ArrayList<State> tempSucc = new ArrayList<>();
