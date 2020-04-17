@@ -7,42 +7,42 @@ import java.util.Objects;
 
 public class Interpretation {
 
-    private ArrayList<Node> tree;
-    private Node root;
+    private ArrayList<State> tree;
+    private State root;
 
     public Interpretation() {
         tree = new ArrayList<>();
 
     }
 
-    public Interpretation(ArrayList<Node> tree, Node root) {
+    public Interpretation(ArrayList<State> tree, State root) {
         this.tree = tree;
         this.root = root;
     }
 
-    public Interpretation(Node root) {
+    public Interpretation(State root) {
         this.root = root;
         this.tree = new ArrayList<>();
     }
 
-    public Interpretation(ArrayList<Node> tree) {
+    public Interpretation(ArrayList<State> tree) {
         this.tree = tree;
         this.root = null;
     }
 
-    public void setRoot(Node root) {
+    public void setRoot(State root) {
         this.root = root;
     }
 
-    public Node getRoot() {
+    public State getRoot() {
         return root;
     }
 
-    public ArrayList<Node> getTree() {
+    public ArrayList<State> getTree() {
         return tree;
     }
 
-    public void setTree(ArrayList<Node> tree) {
+    public void setTree(ArrayList<State> tree) {
         this.tree = tree;
     }
 
@@ -61,9 +61,9 @@ public class Interpretation {
     }
 
     //la je me preocupe pas si la formule est reecrite ou pas
-    private ArrayList <Node> sat_(Formula f){
+    private ArrayList <State> sat_(Formula f){
         String testSub = f.toString(); //si jamais on a une formule compliquee on n'a pas a refaire le calcul.
-        ArrayList<Node> res_list = new ArrayList<>();
+        ArrayList<State> res_list = new ArrayList<>();
         if (f instanceof Negation)
         {
             //je lance sat avec la sous formule car si ce nest pas un atome la sous formule est traitée d'abor
@@ -89,15 +89,15 @@ public class Interpretation {
             
             //A carré F
             if(((QopF) f).getQ() instanceof ForAll && ((QopF) f).getOp() instanceof Square){
-                ArrayList<Node> temp = new ArrayList<>();
+                ArrayList<State> temp = new ArrayList<>();
                 String testSub2 = ((QopF) f).getF().toString();
-                ArrayList<Node> toReturn = new ArrayList<>;
+                ArrayList<State> toReturn = new ArrayList<>();
                 for(int i = 0; i<tree.size();i++){
                     if(!tree.get(i).isMarkedBy(testSub2))
                         temp.add(tree.get(i));
-                    for (Node s : res_list){
+                    for (State s : res_list){
                         boolean intersectionEmpty = true;
-                        for(Node son : s.getSons()){
+                        for(State son : s.getSons()){
                             if (temp.contains(son))
                                 intersectionEmpty = false;
                         }
@@ -137,8 +137,8 @@ public class Interpretation {
                 while (sizeRes !=res_list.size()){
                     sizeRes=res_list.size();
                     //marquer les prédécesseurs des états marqués 
-                    for (Node s : res_list){
-                        for (Node p : s.getParents()){
+                    for (State s : res_list){
+                        for (State p : s.getParents()){
                             if (! p.isMarkedBy(testSub)){
                                 p.mark(testSub);
                                 res_list.add(p);
@@ -156,7 +156,7 @@ public class Interpretation {
                     tree.get(tree.indexOf(res_list.get(i))).mark(testSub);
                 }
                 //recoupere tout les etats qui ne sont pas marques par ADiamond
-                ArrayList<Node> notIt = new ArrayList<>();
+                ArrayList<State> notIt = new ArrayList<>();
                 for(int i = 0; i < tree.size(); i++)
                 {
                     if(res_list.indexOf(tree.get(i))== -1)
@@ -182,8 +182,8 @@ public class Interpretation {
         }
         if(f instanceof QF1opF2)
         {
-            ArrayList<Node> satF1 = sat_(((QF1opF2) f).getF1());
-            ArrayList<Node> satF2 = sat_(((QF1opF2) f).getF2());
+            ArrayList<State> satF1 = sat_(((QF1opF2) f).getF1());
+            ArrayList<State> satF2 = sat_(((QF1opF2) f).getF2());
             // f1 ^ f2
             if(((QF1opF2) f).getOp() instanceof Conjunction && ((QF1opF2) f).getQ() == null)
             {
@@ -204,7 +204,7 @@ public class Interpretation {
                 assert satF2 != null;
                 res_list.addAll(satF2);
                 assert satF1 != null;
-                for (Node element : satF1) {
+                for (State element : satF1) {
                     if(!satF2.contains(element))res_list.add(element);
                 }
 
@@ -224,7 +224,7 @@ public class Interpretation {
                     //pour tous les états dans Sat(F1), on vérifie que les successeurs sont tous marqués
                     for(int i = 0; i<satF2.size();i++){
                         boolean containAll = true;
-                        for (Node s :satF2.get(i).getSons()){
+                        for (State s :satF2.get(i).getSons()){
                            if (!res_list.contains(s)) 
                                containAll = false;
                         }
@@ -275,11 +275,11 @@ public class Interpretation {
     }
 
     //je vais faire une sorte de a* avec un map des sommets deja visit'es et
-    private boolean thereIsOneInTheFuture(Formula f, Node start)
+    private boolean thereIsOneInTheFuture(Formula f, State start)
     {
-        ArrayList<Node> toVisit = new ArrayList<>();
+        ArrayList<State> toVisit = new ArrayList<>();
         ArrayList<String> visited = new ArrayList<>();
-        Node position = start;
+        State position = start;
         if(start.getSons().size() != 0)
         {
             //come ça on n'a pas a lanse 50 fois la reecriture en tring qui peut etre longue
@@ -306,12 +306,12 @@ public class Interpretation {
         }
         return false;
     }
-    private boolean allMyChildrenHaveIt(String f, Node start)
+    private boolean allMyChildrenHaveIt(String f, State start)
     {
         //recolte des sucesseurs
         int taille = 0;
-        ArrayList<Node> toCheck = new ArrayList<>();
-        ArrayList<Node> sons = new ArrayList<>();
+        ArrayList<State> toCheck = new ArrayList<>();
+        ArrayList<State> sons = new ArrayList<>();
         toCheck.addAll(start.getSons());
         while (taille != toCheck.size())
         {

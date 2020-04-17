@@ -74,6 +74,8 @@ public class Tree {
         {
             //this will be the to_develop of the "infant" nodes
             ArrayList<Formula> tDvl1 = new ArrayList<>();
+            ArrayList<Formula> mrk = new ArrayList<>(n.getMarks());
+            mrk.add(n.getTo_develop().get(i));
             //if there are some formulas to carry over to the infants this is where we get them
             if(n.getTo_develop().size() > 1)
             {
@@ -82,10 +84,12 @@ public class Tree {
                     if(j != i)
                     {
                         tDvl1.add(n.getTo_develop().get(j));
+                        ret.add(new Node(mrk , tDvl1));
+
                     }
                 }
             }
-            //Si ona une negation
+            //Si on a une negation
             if(n.getTo_develop().get(i) instanceof Negation)
             {
                 Negation f1 = (Negation)n.getTo_develop().get(i);

@@ -1,33 +1,33 @@
 package Interpretation;
 
 import logic.Formula;
-import logic.Interpretation;
+
 
 import java.util.ArrayList;
 
-public class Node {
+public class State {
     private String name;
-    private ArrayList<Node> parents;
-    private ArrayList<Node> sons;
+    private ArrayList<State> parents;
+    private ArrayList<State> sons;
     private ArrayList<String> marks;
 
 
 
-    public Node(String name) {
+    public State(String name) {
         this.name = name;
         this.parents = new ArrayList<>();
         this.sons = new ArrayList<>();
         this.marks = new ArrayList<>();
     }
 
-    public Node(String name, ArrayList<Node> parents, ArrayList<Node> sons) {
+    public State(String name, ArrayList<State> parents, ArrayList<State> sons) {
         this.name = name;
         this.parents = parents;
         this.sons = sons;
         this.marks = new ArrayList<>();
     }
 
-    public Node(String name, ArrayList<Node> parents, ArrayList<Node> sons, ArrayList<String> marks) {
+    public State(String name, ArrayList<State> parents, ArrayList<State> sons, ArrayList<String> marks) {
         this.name = name;
         this.parents = parents;
         this.sons = sons;
@@ -42,11 +42,11 @@ public class Node {
         return name;
     }
 
-    public ArrayList<Node> getParents() {
+    public ArrayList<State> getParents() {
         return parents;
     }
 
-    public ArrayList<Node> getSons() {
+    public ArrayList<State> getSons() {
         return sons;
     }
 
@@ -54,27 +54,27 @@ public class Node {
         this.name = name;
     }
 
-    public void setParents(ArrayList<Node> parents) {
+    public void setParents(ArrayList<State> parents) {
         this.parents = parents;
     }
 
-    public void setSons(ArrayList<Node> sons) {
+    public void setSons(ArrayList<State> sons) {
         this.sons = sons;
     }
 
-    public void addParent(Node p) {
+    public void addParent(State p) {
         this.parents.add(p);
     }
 
-    public void addParents(ArrayList<Node> p) {
+    public void addParents(ArrayList<State> p) {
         this.parents.addAll(p);
     }
 
-    public void addSon(Node s) {
+    public void addSon(State s) {
         this.sons.add(s);
     }
 
-    public void addSons(ArrayList<Node> s) {
+    public void addSons(ArrayList<State> s) {
         this.sons.addAll(s);
     }
 
@@ -100,7 +100,7 @@ public class Node {
         marks.remove(f);
     }
 
-    public Node() {
+    public State() {
         super();
         marks = new ArrayList<>();
     }

@@ -12,28 +12,34 @@ public class Node {
     private ArrayList<Node> following;
     private Node previous;
 
-    public void Node()
+    public Node()
     {
         this.to_develop = new ArrayList<>();
         this.marks = new ArrayList<>();
         this.following = new ArrayList<>();
     }
-    public void Node(ArrayList<Formula> marks, ArrayList<Formula>to_develop)
+    public Node(ArrayList<Formula> marks, ArrayList<Formula> to_develop)
     {
-        Node();
+        this.to_develop = new ArrayList<>();
+        this.marks = new ArrayList<>();
+        this.following = new ArrayList<>();
         this.marks.addAll(marks);
         this.to_develop.addAll(to_develop);
     }
-    public void Node(ArrayList<Formula> marks, ArrayList<Formula> to_develop, Node previous )
+    public Node(ArrayList<Formula> marks, ArrayList<Formula> to_develop, Node previous)
     {
-        Node();
+        this.to_develop = new ArrayList<>();
+        this.marks = new ArrayList<>();
+        this.following = new ArrayList<>();
         this.marks.addAll(marks);
         this.to_develop.addAll(to_develop);
         this.previous = previous;
     }
-    public void Node(int number, ArrayList<Formula> marks, ArrayList<Formula> to_develop, ArrayList<Node> following, Node previous)
+    public Node(int number, ArrayList<Formula> marks, ArrayList<Formula> to_develop, ArrayList<Node> following, Node previous)
     {
-        Node();
+        this.to_develop = new ArrayList<>();
+        this.marks = new ArrayList<>();
+        this.following = new ArrayList<>();
         this.number = number;
         this.marks.addAll(marks);
         this.to_develop.addAll(to_develop);
