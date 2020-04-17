@@ -11,6 +11,7 @@ public class Node {
     private ArrayList<Formula> marks;
     private ArrayList<Node> following;
     private Node previous;
+    private Formula chosenOne;
 
     public Node()
     {
@@ -114,5 +115,13 @@ public class Node {
 
     public ArrayList<Formula> getTo_develop() {
         return to_develop;
+    }
+
+    public void setChosenOne(Formula chosenOne) {
+        this.chosenOne = chosenOne;
+    }
+
+    public Formula getChosenOne() {
+        return chosenOne;
     }
 }

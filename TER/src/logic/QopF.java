@@ -1,7 +1,7 @@
 package logic;
 
 import Interpretation.Interpretation;
-import Interpretation.Node;
+import Interpretation.State;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -80,7 +80,7 @@ public class QopF extends Formula {
         if(parent != null && parent.getI() != null && this.getI() == null) this.setI(parent.getI());
     }
 
-    public QopF(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f) {
+    public QopF(Formula parent, Interpretation i, ArrayList<State> marks, Quantificator q, Operator op, Formula f) {
         super(parent, i, marks);
         this.q = q;
         this.op = op;
@@ -94,7 +94,7 @@ public class QopF extends Formula {
     }
 
     @Override
-    public ArrayList<Node> getMarks() {
+    public ArrayList<State> getMarks() {
         return super.getMarks();
     }
 
@@ -106,7 +106,7 @@ public class QopF extends Formula {
     }
 
     @Override
-    public void setMarks(ArrayList<Node> marks) {
+    public void setMarks(ArrayList<State> marks) {
         super.setMarks(marks);
     }
 
@@ -121,12 +121,12 @@ public class QopF extends Formula {
     }
 
     @Override
-    public void mark(Node e) {
+    public void mark(State e) {
         super.mark(e);
     }
 
     @Override
-    public boolean isMarkedBy(Node e) {
+    public boolean isMarkedBy(State e) {
         return super.isMarkedBy(e);
     }
 
@@ -203,7 +203,7 @@ public class QopF extends Formula {
         return null;
     }
 
-    public QopF(Formula parent, Interpretation i, ArrayList<Node> marks) {
+    public QopF(Formula parent, Interpretation i, ArrayList<State> marks) {
         super(parent, i, marks);
     }
 

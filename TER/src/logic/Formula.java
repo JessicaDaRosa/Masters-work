@@ -1,7 +1,7 @@
 package logic;
 
 import Interpretation.Interpretation;
-import Interpretation.Node;
+import Interpretation.State;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ public abstract class  Formula {
 
     private Formula parent;
     private Interpretation i;
-    private ArrayList<Node> marks;
+    private ArrayList<State> marks;
 
     public Formula(Interpretation i){
         this.parent = null;
@@ -21,7 +21,7 @@ public abstract class  Formula {
         this.parent = parent;
     }
 
-    public Formula(Formula parent, Interpretation i, ArrayList<Node> marks) {
+    public Formula(Formula parent, Interpretation i, ArrayList<State> marks) {
         this.parent = parent;
         this.i = i;
         this.marks = marks;
@@ -43,7 +43,7 @@ public abstract class  Formula {
         return i;
     }
 
-    public ArrayList<Node> getMarks() {
+    public ArrayList<State> getMarks() {
         return marks;
     }
 
@@ -52,7 +52,7 @@ public abstract class  Formula {
         mark(i);
     }
 
-    public void setMarks(ArrayList<Node> marks) {
+    public void setMarks(ArrayList<State> marks) {
         this.marks = marks;
     }
 
@@ -64,13 +64,13 @@ public abstract class  Formula {
         this.parent = parent;
     }
 
-    public void mark(Node e){
+    public void mark(State e){
         marks.add(e);
     }
 
     //thecnically this does SAT de la formule par apport a l'interpretation
     private void mark(Interpretation i)
-    {   Node temp;
+    {   State temp;
         String meString = this.toString();
         //Going through all the nodes in the graph
         for (int j = 0; j<i.getTree().size(); j++)
@@ -86,7 +86,7 @@ public abstract class  Formula {
      * @param e
      * @return boolean
      */
-    public boolean isMarkedBy(Node e){
+    public boolean isMarkedBy(State e){
         if(marks.indexOf(e) == -1) return false;
         return true;
     }

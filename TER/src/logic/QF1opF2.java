@@ -1,7 +1,7 @@
 package logic;
 
 import Interpretation.Interpretation;
-import Interpretation.Node;
+import Interpretation.State;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -157,7 +157,7 @@ public class QF1opF2 extends Formula {
         super(parent);
     }
 
-    public QF1opF2(Formula parent, Interpretation i, ArrayList<Node> marks) {
+    public QF1opF2(Formula parent, Interpretation i, ArrayList<State> marks) {
         super(parent, i, marks);
     }
 
@@ -167,7 +167,7 @@ public class QF1opF2 extends Formula {
     }
 
     @Override
-    public ArrayList<Node> getMarks() {
+    public ArrayList<State> getMarks() {
         return super.getMarks();
     }
 
@@ -179,7 +179,7 @@ public class QF1opF2 extends Formula {
     }
 
     @Override
-    public void setMarks(ArrayList<Node> marks) {
+    public void setMarks(ArrayList<State> marks) {
         super.setMarks(marks);
     }
 
@@ -197,12 +197,12 @@ public class QF1opF2 extends Formula {
     }
 
     @Override
-    public void mark(Node e) {
+    public void mark(State e) {
         super.mark(e);
     }
 
     @Override
-    public boolean isMarkedBy(Node e) {
+    public boolean isMarkedBy(State e) {
         return super.isMarkedBy(e);
     }
 
@@ -251,7 +251,7 @@ public class QF1opF2 extends Formula {
         f2.setParent(this);
     }
 
-    public QF1opF2(Formula parent, Interpretation i, ArrayList<Node> marks, Quantificator q, Operator op, Formula f1, Formula f2) {
+    public QF1opF2(Formula parent, Interpretation i, ArrayList<State> marks, Quantificator q, Operator op, Formula f1, Formula f2) {
         super(parent, i, marks);
         this.q = q;
         this.op = op;
