@@ -12,7 +12,6 @@ public class Interpretation {
 
     public Interpretation() {
         model = new ArrayList<State>();
-
     }
 
     public Interpretation(ArrayList<State> model, State root) {

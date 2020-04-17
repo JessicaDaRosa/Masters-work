@@ -1,7 +1,7 @@
 package logic;
 
 import Interpretation.Interpretation;
-import Interpretation.Node;
+import Interpretation.State;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -51,7 +51,7 @@ public class Atom extends Formula {
     }
 
     @Override
-    public ArrayList<Node> getMarks() {
+    public ArrayList<State> getMarks() {
         return super.getMarks();
     }
 
@@ -61,7 +61,7 @@ public class Atom extends Formula {
     }
 
     @Override
-    public void setMarks(ArrayList<Node> marks) {
+    public void setMarks(ArrayList<State> marks) {
         super.setMarks(marks);
     }
 
@@ -76,12 +76,12 @@ public class Atom extends Formula {
     }
 
     @Override
-    public void mark(Node e) {
+    public void mark(State e) {
         super.mark(e);
     }
 
     @Override
-    public boolean isMarkedBy(Node e) {
+    public boolean isMarkedBy(State e) {
         return super.isMarkedBy(e);
     }
 

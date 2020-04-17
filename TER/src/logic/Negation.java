@@ -1,7 +1,7 @@
 package logic;
 
 import Interpretation.Interpretation;
-import Interpretation.Node;
+import Interpretation.State;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class Negation extends Formula {
         f.setParent(this);
     }
 
-    public Negation(Formula parent, Interpretation i, ArrayList<Node> marks, Formula f) {
+    public Negation(Formula parent, Interpretation i, ArrayList<State> marks, Formula f) {
         super(parent, i, marks);
         this.f = f;
         this.f.setI(i);
@@ -30,7 +30,7 @@ public class Negation extends Formula {
         super(parent);
     }
 
-    public Negation(Formula parent, Interpretation i, ArrayList<Node> marks) {
+    public Negation(Formula parent, Interpretation i, ArrayList<State> marks) {
         super(parent, i, marks);
     }
 
@@ -46,7 +46,7 @@ public class Negation extends Formula {
     }
 
     @Override
-    public void setMarks(ArrayList<Node> marks) {
+    public void setMarks(ArrayList<State> marks) {
         super.setMarks(marks);
     }
 
@@ -61,7 +61,7 @@ public class Negation extends Formula {
     }
 
     @Override
-    public void mark(Node e) {
+    public void mark(State e) {
         super.mark(e);
     }
 
@@ -79,7 +79,7 @@ public class Negation extends Formula {
     }
 
     @Override
-    public ArrayList<Node> getMarks() {
+    public ArrayList<State> getMarks() {
         return super.getMarks();
     }
 
@@ -90,7 +90,7 @@ public class Negation extends Formula {
     }
 
     @Override
-    public boolean isMarkedBy(Node e) {
+    public boolean isMarkedBy(State e) {
         return super.isMarkedBy(e);
     }
 
